@@ -37,6 +37,11 @@ module API
         def writeable_attributes
           super + ["date"]
         end
+
+        def json_cache_key
+          # TODO: more elegant solution to not cache anything in this subclass
+          super + [Random.new]
+        end
       end
     end
   end
