@@ -35,6 +35,8 @@ module API
     module WorkPackages
       module Schema
         class WorkPackageSchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          include API::Caching::CachedRepresenter
+
           class << self
             def represented_class
               WorkPackage
@@ -96,6 +98,11 @@ module API
                                              I18n.locale,
                                              represented.type.updated_at,
                                              OpenProject::Cache::CacheKey.expand(custom_fields))
+          end
+
+          # TODO: refactor to properly harmonize with API::Caching::CachedRepresenter
+          def json_cache_key
+            cache_key
           end
 
           link :baseSchema do
